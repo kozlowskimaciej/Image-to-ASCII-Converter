@@ -37,16 +37,18 @@ char Image::select_char(double brightness) const
     if (brightness < 0.1)
         return ' ';
     if (brightness < 0.2)
-        return ':';
+        return '.';
     if (brightness < 0.3)
-        return '*';
+        return ':';
     if (brightness < 0.4)
-        return 'o';
-    if (brightness < 0.5)
-        return '&';
-    if (brightness < 0.6)
         return '*';
+    if (brightness < 0.5)
+        return 'o';
+    if (brightness < 0.6)
+        return '&';
     if (brightness < 0.8)
+        return '*';
+    if (brightness < 0.9)
         return '@';
 
     return '#';
@@ -54,13 +56,13 @@ char Image::select_char(double brightness) const
 
 double Image::group_brightness(unsigned int group_x, unsigned int group_y, unsigned int group_width, unsigned int group_height) const
 {
-    double pixel_sum = 0;
+    int pixel_sum = 0;
     unsigned int group_offset = channels_ * (group_x * group_width + group_y * group_height * width_); // offset to the beginning of the group (in pixels)
 
     for (unsigned int row = 0; row < group_height; ++row)
         for (unsigned int col = 0; col < group_width; ++col)
             for (unsigned int k = 0; k < 3; ++k) // sum three channels of pixel
-                pixel_sum += static_cast<double>(img_[group_offset + 3 * (col + row * width_) + k]);
+                pixel_sum += img_[group_offset + 3 * (col + row * width_) + k];
 
-    return (pixel_sum / (group_height * group_width)) / MAX_SUM;
+    return (static_cast<double>(pixel_sum) / (group_height * group_width)) / MAX_SUM;
 }

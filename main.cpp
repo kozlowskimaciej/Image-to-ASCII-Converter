@@ -3,8 +3,8 @@
 
 #include "include/image.h"
 
-constexpr unsigned int OUTPUT_WIDTH = 50;
-constexpr unsigned int OUTPUT_HEIGHT = 25;
+constexpr unsigned int OUTPUT_WIDTH = 150;
+constexpr unsigned int OUTPUT_HEIGHT = 75;
 
 int main(void)
 {
