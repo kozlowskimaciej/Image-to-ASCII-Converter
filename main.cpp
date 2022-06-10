@@ -3,8 +3,8 @@
 
 #define STB_IMAGE_IMPLEMENTATION
 #include "include/stb_image/stb_image.h"
-constexpr unsigned int OUTPUT_WIDTH = 100;
-constexpr unsigned int OUTPUT_HEIGHT = 50;
+constexpr unsigned int OUTPUT_WIDTH = 15;
+constexpr unsigned int OUTPUT_HEIGHT = 15;
 constexpr unsigned int MAX_SUM = 765; // 255 * 3 channels (R,G,B)
 
 char select_char(double brightness)
@@ -44,14 +44,14 @@ double group_brightness(unsigned int group_x, unsigned int group_y, unsigned int
 int main(void)
 {
     int width, height, channels;
-    unsigned char *const img = stbi_load("kot.jpg", &width, &height, &channels, 0);
+    unsigned char *const img = stbi_load("test_letter.jpg", &width, &height, &channels, 0);
     if (img == NULL)
     {
         throw;
     }
 
-    const unsigned int GROUP_WIDTH = width / OUTPUT_WIDTH;
-    const unsigned int GROUP_HEIGHT = height / OUTPUT_HEIGHT;
+    const unsigned int GROUP_WIDTH = (width / OUTPUT_WIDTH) | 1;
+    const unsigned int GROUP_HEIGHT = (height / OUTPUT_HEIGHT) | 1;
 
     for (unsigned int row = 0; row < height / GROUP_HEIGHT; ++row)
     {
