@@ -4,8 +4,8 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include "include/stb_image/stb_image.h"
 
-constexpr unsigned int GROUP_HEIGHT = 60;
-constexpr unsigned int GROUP_WIDTH = 30;
+constexpr unsigned int GROUP_HEIGHT = 56;
+constexpr unsigned int GROUP_WIDTH = 21;
 constexpr unsigned int MAX_SUM = 765; // 255 * 3 channels (R,G,B)
 
 char select_char(double brightness)
@@ -30,14 +30,15 @@ char select_char(double brightness)
         return '#';
 };
 
-double group_brightness(unsigned int img_width, unsigned char *img)
+double group_brightness(unsigned int group_x, unsigned int group_y, unsigned int img_width, unsigned char *img)
 {
     double pixel_sum = 0;
+    unsigned int group_offset = 3 * (group_x * GROUP_WIDTH + group_y * GROUP_HEIGHT * img_width);    // offset to the beginning of the group (in pixels)
 
-    for (int i = 0; i < GROUP_WIDTH; ++i)
-        for (int j = 0; j < GROUP_HEIGHT; ++j)
+    for (int row = 0; row < GROUP_HEIGHT; ++row)
+        for (int clmn = 0; clmn < GROUP_WIDTH; ++clmn)
             for (unsigned int k = 0; k < 3; ++k) // sum three channels of pixel
-                pixel_sum += static_cast<double>(img[3 * (i + j * img_width) + k]);
+                pixel_sum += static_cast<double>(img[group_offset + 3 * (clmn + row * img_width) + k]);
 
     return (pixel_sum / (GROUP_HEIGHT * GROUP_WIDTH)) / MAX_SUM;
 }
@@ -45,7 +46,7 @@ double group_brightness(unsigned int img_width, unsigned char *img)
 int main(void)
 {
     int width, height, channels;
-    unsigned char *img = stbi_load("kot.jpg", &width, &height, &channels, 0);
+    unsigned char *const img = stbi_load("kot.jpg", &width, &height, &channels, 0);
     if (img == NULL)
     {
         throw;
@@ -57,16 +58,16 @@ int main(void)
         for (unsigned int clmn = 0; clmn < width / GROUP_WIDTH; ++clmn)
         {
 
-            img += channels * GROUP_WIDTH; // move pointer to the next pixel
+            // img += channels * GROUP_WIDTH; // move pointer to the next pixel
 
-            printf("%c", select_char(group_brightness(width, img)));
+            printf("%c", select_char(group_brightness(clmn, row, width, img)));
 
             // printf("%d", i % width);
         }
         // if ( % width == 0)
         // {
         printf("\n");
-        img += channels * width * GROUP_HEIGHT;
+        // img += channels * width * GROUP_HEIGHT;
         // }
     }
 }
