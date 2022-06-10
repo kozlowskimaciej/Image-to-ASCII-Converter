@@ -52,7 +52,7 @@ char Image::select_char(double brightness) const
 double Image::group_brightness(unsigned int group_x, unsigned int group_y, unsigned int group_width, unsigned int group_height) const
 {
     double pixel_sum = 0;
-    unsigned int group_offset = 3 * (group_x * group_width + group_y * group_height * width_); // offset to the beginning of the group (in pixels)
+    unsigned int group_offset = channels_ * (group_x * group_width + group_y * group_height * width_); // offset to the beginning of the group (in pixels)
 
     for (int row = 0; row < group_height; ++row)
         for (int col = 0; col < group_width; ++col)
