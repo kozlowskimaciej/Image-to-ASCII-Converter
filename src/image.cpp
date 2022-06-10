@@ -1,5 +1,8 @@
 #include "../include/image.h"
 
+#define STB_IMAGE_IMPLEMENTATION
+#include "../include/stb_image/stb_image.h"
+
 Image::Image(const std::string &filepath)
     : img_(stbi_load(filepath.c_str(), &width_, &height_, &channels_, 0))
 {
