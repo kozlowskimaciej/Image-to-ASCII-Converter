@@ -9,5 +9,6 @@ constexpr unsigned int OUTPUT_HEIGHT = 75;
 int main(void)
 {
     Image img("kot.jpg");
-    printf("%s", img.toAscii(OUTPUT_WIDTH, OUTPUT_HEIGHT).c_str());
+    img.save_to_file("kot_ascii.txt", 200, 200);
+    // printf("%s", img.toAscii(OUTPUT_WIDTH, OUTPUT_HEIGHT).c_str());
 }

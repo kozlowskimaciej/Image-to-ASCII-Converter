@@ -2,6 +2,7 @@
 #define IMAGE_H
 
 #include <string>
+#include <fstream>
 
 class Image
 {
@@ -18,6 +19,7 @@ public:
     int height() const { return height_; };
     int channels() const { return channels_; };
     std::string toAscii(int out_width, int out_height);
+    void save_to_file(const std::string file_name, int out_width, int out_height);
 };
 
 #endif

@@ -52,7 +52,7 @@ char Image::select_char(double brightness) const
         return '@';
 
     return '#';
-};
+}
 
 double Image::group_brightness(unsigned int group_x, unsigned int group_y, unsigned int group_width, unsigned int group_height) const
 {
@@ -65,4 +65,11 @@ double Image::group_brightness(unsigned int group_x, unsigned int group_y, unsig
                 pixel_sum += img_[group_offset + 3 * (col + row * width_) + k];
 
     return (static_cast<double>(pixel_sum) / (group_height * group_width)) / MAX_SUM;
+}
+
+void Image::save_to_file(const std::string file_name, int out_width, int out_height)
+{
+    std::ofstream file(file_name, std::ios_base::out);
+
+    file << toAscii(out_width, out_height);
 }
